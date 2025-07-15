@@ -22,16 +22,18 @@ export default function EditEmployeeForm () {
 
     const getDataFromID = async()=>{
       try{
-          axios.get(`/employees/${id}`).then((res)=>{
-            console.log("-----------------",(form as any)[res.data.name])
+        setLoading
+       await   axios.get(`/employees/${id}`).then((res)=>{
             setForm({
                 name: res.data.name,
                 email: res.data.email,
                 designation: res.data.designation,
                 salary: res.data.salary,
             })
+                setLoading(false)
         })
       }catch(err : any){
+        setLoading(false)
           toast.error(err?.response?.data?.message || 'Error Loading Employee')
         setError(err?.response?.data?.message || 'Error Loading Employee')
       }finally{
@@ -63,6 +65,7 @@ export default function EditEmployeeForm () {
  
 
     if(loading) return <div>Loading Employee</div>
+    else
     return(
        <div className="max-w-md mx-auto mt-16 p-8 bg-white rounded-lg shadow-lg border border-gray-100">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">

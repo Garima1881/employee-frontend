@@ -37,7 +37,6 @@ export default function CreateEmployeePage() {
             navigate('/dashboard')
         }
         catch (err: any) {
-            console.error(err);
             setError(err?.response?.data?.message || 'Failed to create the employee')
         }
     }
