@@ -17,7 +17,7 @@ interface Employee {
     salary : number
 }
 
-interface EmployeeState {
+export interface EmployeeState {
     employees: Employee[],
     loading : boolean,
     error : string

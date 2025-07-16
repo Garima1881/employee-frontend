@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { type RootState } from '../store/store.js';
-import { logout } from '../features/auth/authSlice';
+import { logout as logoutAction} from '../features/auth/authSlice';
 import { useRef, useState } from 'react';
 import MyIcon from './MyIcon.js';
 import useClickOutside from '../customHooks/useClickOutside.js';
 import { useAuth } from '../context/AuthContext.js';
 
-const Header = ({ userName = 'John Doe' }) => {
-    const token = useSelector((state: RootState) => state.auth.token);
+const Header = ({  }) => {
+    const userName = useSelector((state: RootState) => state.auth.username) ;
+    console.log("the user name is ", userName)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -19,6 +20,7 @@ const Header = ({ userName = 'John Doe' }) => {
     const drawerRef = useRef<HTMLDivElement>(null);
     useClickOutside(drawerRef, () => setDrawerOpen(false));
     const handleLogout = () => {
+        dispatch(logoutAction());
         logout()
         navigate('/login');
 
@@ -31,7 +33,7 @@ const Header = ({ userName = 'John Doe' }) => {
         </div>
         <div className='relative'>
             <div className='flex items-center gap-2 cursor-pointer' onClick={() => setDropdownOpen(!isDropdownOpen)}>
-                <span>{userName}</span>
+                <span>{`Hello ${userName}`}</span>
                 <MyIcon iconName='AccountCircle' fontSize='large' />
             </div>
             {

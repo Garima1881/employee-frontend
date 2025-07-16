@@ -1,8 +1,8 @@
 import axios from '../api/axios'
-import { useState } from "react";
+import { use, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setToken } from "../features/auth/authSlice";
+import { setToken, setUserName } from "../features/auth/authSlice";
 import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage (){
@@ -15,10 +15,17 @@ export default function LoginPage (){
     const handleLogin = async(e : React.FormEvent) =>{
         e.preventDefault();
         setError('');
+
+        if(!email || !password){
+            setError('Email and Password are required');
+            return;
+        }   
        try{
         const response = await axios.post('/auth/login',{email,password})
         const {token} = response.data;
+         const {user} = response.data;
         dispatch(setToken(token));
+        dispatch(setUserName(user.name));
         login(token)
         navigate('/dashboard')
 

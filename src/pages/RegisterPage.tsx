@@ -18,6 +18,7 @@ export default function RegisterPage (){
         if(!name || !password || !email){
             toast.error("Please fill all the details!!!")
             setError("Please Fill The Required Fields")
+            return;
         }
        try{
         const response = await axios.post('/auth/register',{name,email,password})
